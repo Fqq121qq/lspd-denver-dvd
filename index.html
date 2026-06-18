@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detective & Vice Division (DVD) — элитное подразделение LSPD. Расследования, борьба с наркотиками и вербовка.">
+    <meta property="og:title" content="DVD | Detective & Vice Division — LSPD Elite">
+    <meta property="og:description" content="Элитное подразделение LSPD. В тени закона мы ищем правду. Правосудие — наш единственный ориентир.">
+    <meta property="og:type" content="website">
+    <title>DVD | Detective & Vice Division — LSPD Elite</title>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Detective & Vice Division",
+      "alternateName": "DVD",
+      "description": "Элитное подразделение LSPD. Расследования, борьба с наркотиками и вербовка.",
+      "url": "https://example.com",
+      "logo": "https://example.com/logo.png",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "Los Santos Police Department",
+        "alternateName": "LSPD"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        (function() {
+            try {
+                const theme = localStorage.getItem('dvd-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div class="bg-layer"></div>
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+    <!-- Фоновая музыка: autoplay muted для обхода блокировки браузера -->
+    <audio id="bgMusic" loop preload="auto" autoplay muted class="bg-audio" aria-label="Фоновая музыка">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <a href="#about" class="skip-link">Перейти к основному контенту</a>
+
+    <!-- Quick Bar -->
+    <div class="quick-bar">
+        <span>ШТАБ DVD: АКТИВЕН | <span id="currentTime" aria-live="polite">00:00:00 PST</span> HQ Los Santos</span>
+        <div class="quick-bar-actions">
+            <span class="music-icon" aria-hidden="true">🎧</span>
+            <button id="musicToggle" class="theme-btn music-btn" aria-label="Включить музыку">🔇</button>
+            <button id="themeToggle" class="theme-btn" aria-label="Переключить тему">🌙 Сменить тему</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="mainNav" role="navigation" aria-label="Основная навигация">
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="DVD - Главная">⚖️ DVD</a>
+            <div class="nav-links">
+                <a href="#about" aria-label="Перейти в раздел О нас">О нас</a>
+                <a href="#staff" aria-label="Перейти в раздел Руководство">Руководство</a>
+                <a href="#schedule" aria-label="Перейти в раздел Расписание">Расписание</a>
+                <a href="#video" aria-label="Перейти в раздел Медиа">Медиа</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-emblem" aria-hidden="true">⚖️</div>
+        <h1 class="reveal">Detective & Vice Division</h1>
+        <div class="hero-divider reveal"></div>
+        <p class="hero-subtitle reveal">Элитное подразделение LSPD<br>«В тени закона мы ищем правду. Правосудие — наш единственный ориентир.»</p>
+        <div class="hero-buttons reveal">
+            <a href="#schedule" class="btn btn-primary pulse">Оперативный календарь</a>
+            <a href="#about" class="btn btn-secondary">Направления работы</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title reveal">Направления Деятельности</h2>
+        <div class="about-grid">
+            <div class="about-card reveal"><h3>🕵️‍♂️ Расследования</h3><p>Раскрытие тяжких преступлений и работа с организованной преступностью.</p></div>
+            <div class="about-card reveal"><h3>💊 Борьба с наркотиками</h3><p>Выявление и ликвидация каналов поставки запрещенных веществ.</p></div>
+            <div class="about-card reveal"><h3>🤝 Вербовка</h3><p>Работа с информаторами и внедрение агентов в криминальные структуры.</p></div>
+        </div>
+        <div id="statsContainer" class="stats-grid reveal"></div>
+    </section>
+
+    <!-- Staff Section (Иерархия: Head → Curator → Assistant) -->
+    <section id="staff" class="section">
+        <h2 class="section-title reveal">Командный Состав</h2>
+        <div class="about-grid staff-grid">
+            <div class="about-card staff-card reveal">
+                <h3>⚖️ Head of Department</h3>
+                <p class="staff-name">Keva Reyme <span class="staff-id">159972</span></p>
+                <p class="staff-role">Начальник отдела — руководит всем подразделением.</p>
+                <blockquote class="staff-quote">Лидерство — это не власть, а ответственность за каждого.</blockquote>
+            </div>
+            <div class="about-card staff-card reveal">
+                <h3>🔍 Curator</h3>
+                <p class="staff-name">Chester Reyme <span class="staff-id">154810</span></p>
+                <p class="staff-role">Куратор — отвечает за оперативную работу.</p>
+                <blockquote class="staff-quote">В каждом деле есть нить, которая ведёт к истине.</blockquote>
+            </div>
+            <div class="about-card staff-card reveal">
+                <h3>🎖️ Assistant of Chief</h3>
+                <p class="staff-name">Cameron Step <span class="staff-id">40302</span></p>
+                <p class="staff-role">Помощник начальника — следит за отделом DVD.</p>
+                <blockquote class="staff-quote">Порядок — это не просто правило, это образ мышления.</blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="section">
+        <h2 class="section-title reveal">Оперативный Календарь</h2>
+        <div class="countdown-timer reveal">
+            <p>До следующей спецоперации:</p>
+            <div class="timer-display" aria-live="polite">
+                <div class="timer-block"><span class="timer-icon">⏳</span><span id="days">00</span><small>ДНЕЙ</small></div>
+                <div class="timer-block"><span class="timer-icon">🕒</span><span id="hours">00</span><small>ЧАСОВ</small></div>
+                <div class="timer-block"><span class="timer-icon">⌛</span><span id="minutes">00</span><small>МИНУТ</small></div>
+                <div class="timer-block"><span class="timer-icon">⏰</span><span id="seconds">00</span><small>СЕКУНД</small></div>
+            </div>
+        </div>
+        <div id="scheduleGrid" class="schedule-grid reveal"></div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="section">
+        <h2 class="section-title reveal">Медиа Архив</h2>
+        <div class="video-link-wrapper reveal">
+            <a href="https://youtu.be/WcMNrxv7LzM" target="_blank" rel="noopener noreferrer" class="btn btn-primary video-case-link" aria-label="Смотреть закрытое дело №1 на YouTube">
+                📁 Закрытое дело №1
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="currentYear"></span> Detective & Vice Division | LSPD Elite.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
