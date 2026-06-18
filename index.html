@@ -1,611 +1,159 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Внутренний портал Detective & Vice Division LSPD — футуристичная элита">
-<title>DVD | LSPD — Элита будущего</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%26%23x1F985%3B%3C/text%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
---primary:#0a0a1a;
---secondary:#111133;
---accent:#ff3b5c;
---gold:#ffd966;
---light:#f0f0f0;
---dark:#050510;
---nav-height:78px;
---neon:0 0 10px rgba(255,217,102,0.7),0 0 30px rgba(255,59,92,0.4);
-}
-body.loading{overflow:hidden;height:100vh}
-body{
-font-family:'Montserrat',sans-serif;
-background:var(--dark);
-color:var(--light);
-line-height:1.6;
-overflow-x:hidden;
-scrollbar-width:thin;
-scrollbar-color:var(--gold) var(--primary);
-}
-body::-webkit-scrollbar{width:6px}
-body::-webkit-scrollbar-track{background:var(--primary)}
-body::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--accent));border-radius:3px}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}.particle,.hero::before,.hero h1,.schedule-item-time,.glow-text,.logo,.preloader-logo,.preloader-spinner,.schedule-container::before,.hero-badge,.back-to-top,.typewriter-text,.cursor{animation:none!important}}
-.preloader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--dark);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.8s ease,visibility 0.8s ease}
-.preloader.hidden{opacity:0;visibility:hidden}
-.preloader.hidden .preloader-logo,.preloader.hidden .preloader-spinner{animation-play-state:paused}
-.preloader-logo{font-size:4rem;font-weight:900;color:var(--gold);animation:preloaderPulse 1.5s ease-in-out infinite;margin-bottom:2rem}
-.preloader-logo i{color:var(--accent);margin-right:0.5rem}
-.preloader-spinner{width:60px;height:60px;border:4px solid rgba(255,217,102,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes preloaderPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:0.7}}
-#particlesCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-nav{
-position:fixed;top:0;width:100%;background:rgba(10,10,30,0.9);backdrop-filter:blur(15px);
--webkit-backdrop-filter:blur(15px);z-index:1000;padding:1rem 5%;
-border-bottom:2px solid var(--gold);box-shadow:0 0 20px rgba(255,217,102,0.3);
-display:flex;align-items:center;height:var(--nav-height);
-}
-.nav-container{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;width:100%}
-.logo{
-font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;color:var(--gold);
-text-decoration:none;display:flex;align-items:center;gap:10px;
-animation:logoFloat 3s ease-in-out infinite;transition:all 0.3s;text-shadow:0 0 10px rgba(255,217,102,0.5);
-}
-.logo i{color:var(--accent);transition:all 0.5s}
-.logo:hover{text-shadow:0 0 20px var(--gold),0 0 40px var(--gold)}
-.logo:hover i{color:var(--gold);transform:rotate(360deg) scale(1.2)}
-@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{
-color:var(--light);text-decoration:none;font-weight:600;text-transform:uppercase;font-size:0.9rem;
-position:relative;padding:5px 0;transition:color 0.4s ease;letter-spacing:1px;
-}
-.nav-links a::before{
-content:'';position:absolute;bottom:-2px;left:50%;width:0;height:2px;background:var(--gold);
-transition:all 0.4s ease;transform:translateX(-50%);box-shadow:0 0 8px var(--gold);
-}
-.nav-links a:hover,.nav-links a.active{color:var(--gold)}
-.nav-links a:hover::before,.nav-links a.active::before{width:100%}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:5px}
-.hamburger span{display:block;width:28px;height:3px;background:var(--gold);border-radius:2px;transition:all 0.3s}
-.hamburger.active span:nth-child(1){transform:translateY(8px) rotate(45deg)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-.menu-overlay{
-position:fixed;top:var(--nav-height);left:0;width:100%;height:calc(100vh - var(--nav-height));
-background:rgba(0,0,0,0.6);z-index:998;opacity:0;visibility:hidden;pointer-events:none;transition:all 0.3s ease;
-}
-.menu-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
-.hero{
-position:relative;margin-top:var(--nav-height);padding:120px 5% 80px;
-background:radial-gradient(circle at 50% 0%,var(--secondary),var(--primary));
-overflow:hidden;z-index:2;
-}
-.hero::before{
-content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-background:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%2250%22 font-size=%2250%22 fill=%22rgba(255,217,102,0.03)%22%3E%26%23x1F985%3B%3C/text%3E%3C/svg%3E');
-background-size:400px;opacity:0.4;animation:drift 40s linear infinite;will-change:transform;
-}
-@keyframes drift{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-200px,-200px) rotate(5deg)}}
-.hero-content{max-width:1400px;margin:0 auto;position:relative;z-index:3}
-.hero-badge{
-display:inline-block;background:var(--accent);color:white;padding:0.6rem 2rem;border-radius:50px;
-font-weight:700;margin-bottom:2rem;text-transform:uppercase;letter-spacing:2px;
-animation:badgePulse 2s ease-in-out infinite;box-shadow:0 0 15px rgba(255,59,92,0.5);
-}
-.hero-badge i{color:white;margin-right:8px}
-@keyframes badgePulse{0%{box-shadow:0 0 0 0 rgba(255,59,92,0.7);transform:scale(1)}50%{box-shadow:0 0 0 15px rgba(255,59,92,0);transform:scale(1.03)}100%{box-shadow:0 0 0 0 rgba(255,59,92,0);transform:scale(1)}}
-.hero h1{
-font-family:'Orbitron',sans-serif;font-size:4.5rem;font-weight:900;margin-bottom:1rem;text-transform:uppercase;
-background:linear-gradient(135deg,var(--gold) 0%,#ffffff 25%,var(--gold) 50%,#ffffff 75%,var(--gold) 100%);
-background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-background-clip:text;animation:gradientShift 4s ease infinite;will-change:background-position;
-}
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hero-subtitle{font-size:1.8rem;color:var(--gold);margin-bottom:2rem;font-weight:600;animation:subtitleGlow 2s ease-in-out infinite}
-.hero-subtitle i{margin-right:0.5rem;color:var(--accent)}
-@keyframes subtitleGlow{0%,100%{text-shadow:0 0 5px var(--gold)}50%{text-shadow:0 0 25px var(--gold),0 0 15px var(--accent)}}
-.typewriter-wrapper{max-width:800px;margin-bottom:2rem}
-#typewriter-text{font-size:1.2rem;color:var(--light);min-height:4rem;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
-@keyframes fadeIn{to{opacity:1}}
-.cursor{display:inline-block;width:3px;height:1.2rem;background:var(--gold);vertical-align:middle;animation:blinkCaret 0.75s step-end infinite}
-@keyframes blinkCaret{from,to{opacity:1}50%{opacity:0}}
-.cta-buttons{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeInUp 0.8s ease 3.5s forwards}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.btn{
-padding:1rem 2.5rem;text-decoration:none;border-radius:50px;font-weight:700;text-transform:uppercase;
-letter-spacing:1px;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px;
-position:relative;overflow:hidden;cursor:pointer;border:2px solid transparent;
-}
-.btn-primary{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 0 20px rgba(255,59,92,0.4)}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(255,59,92,0.6)}
-.btn-secondary{background:transparent;color:var(--gold);border-color:var(--gold);box-shadow:0 0 15px rgba(255,217,102,0.3)}
-.btn-secondary:hover{background:var(--gold);color:var(--dark);box-shadow:0 15px 35px rgba(255,217,102,0.5)}
-.btn::after{
-content:'';position:absolute;top:50%;left:50%;width:300px;height:300px;background:rgba(255,255,255,0.15);
-border-radius:50%;transform:translate(-50%,-50%) scale(0);transition:transform 0.5s ease;
-}
-.btn:active::after{transform:translate(-50%,-50%) scale(1);opacity:0;transition:0s}
-.about,.schedule,.docs,.motto{position:relative;z-index:2}
-.about{background:var(--primary)}
-.schedule{background:linear-gradient(135deg,var(--secondary) 0%,var(--primary) 100%)}
-.docs{background:var(--primary)}
-.motto{background:var(--dark)}
-section{padding:80px 5%}
-.container{max-width:1400px;margin:0 auto}
-.section-title{
-font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:900;text-transform:uppercase;
-margin-bottom:1rem;text-align:center;position:relative;display:inline-block;left:50%;transform:translateX(-50%);
-color:var(--gold);text-shadow:0 0 10px rgba(255,217,102,0.4);
-}
-.section-title::after{
-content:'';position:absolute;bottom:-10px;left:50%;width:100px;height:4px;background:var(--gold);
-transform:translateX(-50%) scaleX(0);transform-origin:center;
-transition:transform 0.8s cubic-bezier(0.4,0,0.2,1);box-shadow:0 0 10px var(--gold);
-}
-.section-title.animated::after{transform:translateX(-50%) scaleX(1)}
-.section-subtitle{text-align:center;color:var(--gold);margin-bottom:4rem;font-size:1.1rem;opacity:0.8}
-.section-subtitle i{margin-right:0.5rem;color:var(--accent)}
-.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem}
-.about-card{
-background:var(--secondary);padding:2.5rem;border-radius:15px;border-left:4px solid var(--gold);
-transition:all 0.3s ease,opacity 0.6s ease;opacity:0;transform:translateY(30px);
-box-shadow:0 0 15px rgba(0,0,0,0.3);
-}
-.about-card.animated{opacity:1;transform:translateY(0)}
-.about-card:hover{transform:translateY(-5px) translateX(5px);box-shadow:0 0 30px rgba(255,217,102,0.2)}
-.about-card i{font-size:2.5rem;color:var(--accent);margin-bottom:1rem;transition:all 0.5s ease;display:inline-block}
-.about-card:hover i{color:var(--gold);transform:rotateY(360deg) scale(1.2)}
-.about-card h3{font-size:1.3rem;margin-bottom:1rem;color:var(--gold)}
-.schedule-container{
-background:var(--dark);border-radius:20px;padding:3rem;margin-top:3rem;
-border:2px solid var(--gold);position:relative;overflow:hidden;
-box-shadow:0 0 25px rgba(255,217,102,0.2);
-}
-.schedule-container::before{
-content:'';position:absolute;top:0;left:-100%;width:100%;height:2px;
-background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:borderScan 3s linear infinite;
-}
-@keyframes borderScan{0%{left:-100%}100%{left:100%}}
-.schedule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:1.5rem}
-.schedule-item{
-background:var(--primary);padding:1.5rem;border-radius:10px;display:flex;justify-content:space-between;
-align-items:center;border-left:4px solid var(--accent);
-transition:opacity 0.6s ease,transform 0.6s ease,box-shadow 0.3s ease;opacity:0;transform:translateY(20px);
-}
-.schedule-item.animated{opacity:1;transform:translateY(0)}
-.schedule-item:nth-child(1){transition-delay:0.05s}.schedule-item:nth-child(2){transition-delay:0.1s}
-.schedule-item:nth-child(3){transition-delay:0.15s}.schedule-item:nth-child(4){transition-delay:0.2s}
-.schedule-item:nth-child(5){transition-delay:0.25s}.schedule-item:nth-child(6){transition-delay:0.3s}
-.schedule-item:nth-child(7){transition-delay:0.35s}.schedule-item:nth-child(8){transition-delay:0.4s}
-.schedule-item:nth-child(9){transition-delay:0.45s}.schedule-item:nth-child(10){transition-delay:0.5s}
-.schedule-item:nth-child(11){transition-delay:0.55s}.schedule-item:nth-child(12){transition-delay:0.6s}
-.schedule-item:nth-child(13){transition-delay:0.65s}.schedule-item:nth-child(14){transition-delay:0.7s}
-.schedule-item:nth-child(15){transition-delay:0.75s}.schedule-item:nth-child(16){transition-delay:0.8s}
-.schedule-item:hover{transform:translateY(0) scale(1.02);box-shadow:0 5px 20px rgba(255,59,92,0.3)}
-.schedule-item.animated:hover{transform:translateY(0) scale(1.02)}
-.schedule-item-info{display:flex;align-items:center;gap:1rem}
-.schedule-item-icon{font-size:2rem;color:var(--gold);transition:transform 0.3s}
-.schedule-item:hover .schedule-item-icon{transform:rotate(-15deg) scale(1.1)}
-.schedule-item-details h4{color:var(--gold);margin-bottom:0.3rem}
-.schedule-item-details p{font-size:0.85rem;opacity:0.7}
-.schedule-item-time{font-size:1.5rem;font-weight:900;color:var(--accent);animation:timeBlink 2s ease-in-out infinite}
-@keyframes timeBlink{0%,100%{opacity:1;text-shadow:0 0 0 transparent}50%{opacity:0.7;text-shadow:0 0 10px var(--accent)}}
-.docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem;perspective:1000px}
-.doc-card{
-background:var(--secondary);padding:2rem;border-radius:15px;text-decoration:none;color:var(--light);
-transition:all 0.6s,transform 0.15s ease;border:2px solid transparent;transform-style:preserve-3d;
-position:relative;display:block;opacity:0;transform:perspective(800px) rotateY(30deg) translateY(20px);
-overflow:hidden;box-shadow:0 0 15px rgba(0,0,0,0.3);
-}
-.doc-card.animated{opacity:1;transform:perspective(800px) rotateY(0) translateY(0)}
-.doc-card:hover,.doc-card:focus-visible,.doc-card:focus{
-border-color:var(--gold);transform:perspective(800px) rotateY(8deg) translateY(-5px);
-box-shadow:-10px 10px 30px rgba(255,217,102,0.3);outline:3px solid var(--gold);outline-offset:4px;
-}
-.doc-card:hover i:not(.external-icon),.doc-card:focus-visible i:not(.external-icon),.doc-card:focus i:not(.external-icon){
-color:var(--gold);transform:rotateY(360deg) scale(1.1);
-}
-.doc-card:hover .external-icon,.doc-card:focus-visible .external-icon,.doc-card:focus .external-icon{
-opacity:1;visibility:visible;transform:translate(0,0);
-}
-.doc-card:active{transform:perspective(800px) rotateY(4deg) translateY(-2px) scale(0.97);transition:transform 0.1s ease}
-.doc-card i{color:var(--accent);transition:all 0.5s;display:inline-block}
-.doc-card i:not(.external-icon){font-size:3rem;margin-bottom:1rem}
-.doc-card .external-icon{
-position:absolute;top:1.5rem;right:1.5rem;font-size:1rem!important;color:var(--gold);margin:0!important;
-opacity:0;visibility:hidden;transform:translate(-5px,5px);
-transition:opacity 0.4s ease,transform 0.4s ease,visibility 0.4s ease;pointer-events:none;
-}
-.doc-card h3{color:var(--gold);margin-bottom:0.5rem}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.motto-box{
-max-width:900px;margin:0 auto;padding:3rem;background:var(--primary);border-radius:20px;
-border:2px solid var(--gold);opacity:0;transform:scale(0.95);transition:all 0.8s ease;
-box-shadow:0 0 30px rgba(255,217,102,0.2);
-}
-.motto-box.animated{opacity:1;transform:scale(1)}
-.motto-box h3{color:var(--gold);font-size:2rem;margin-bottom:1.5rem;text-transform:uppercase}
-.motto-box p{font-size:1.1rem;line-height:1.8;opacity:0.9}
-footer{
-background:var(--dark);border-top:2px solid var(--gold);padding:3rem 5%;text-align:center;
-position:relative;z-index:2;
-}
-.footer-content{max-width:1400px;margin:0 auto}
-.footer-logo{font-size:3rem;font-weight:900;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:10px}
-.footer-logo i{color:var(--accent)}
-.glow-text{color:var(--gold);font-weight:600;animation:textGlow 2s ease-in-out infinite}
-@keyframes textGlow{0%,100%{text-shadow:0 0 5px var(--gold),0 0 10px var(--gold)}50%{text-shadow:0 0 20px var(--gold),0 0 30px var(--gold),0 0 40px var(--gold)}}
-.back-to-top{
-position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:var(--gold);
-color:var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;
-cursor:pointer;opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:999;border:none;
-font-size:1.2rem;box-shadow:0 4px 15px rgba(255,217,102,0.4);pointer-events:none;
-}
-.back-to-top.visible{opacity:1;visibility:visible;pointer-events:auto;animation:backToTopBounce 0.6s ease}
-.back-to-top:hover{transform:translateY(-5px) rotate(360deg);box-shadow:0 6px 25px rgba(255,217,102,0.6)}
-.back-to-top:active{transform:translateY(-2px) scale(0.95)}
-@keyframes backToTopBounce{0%{transform:scale(0.5)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
-@media(max-width:768px){
-.hero h1{font-size:2.5rem}.hamburger{display:flex}
-.nav-links{
-position:fixed;top:var(--nav-height);right:-100%;width:80%;max-width:320px;
-height:calc(100vh - var(--nav-height));background:rgba(10,10,30,0.98);
-backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-transition:right 0.4s ease;flex-direction:column;padding:2rem;gap:1.5rem;
-border-left:2px solid var(--gold);z-index:999;overflow-y:auto;
-}
-.nav-links.active{right:0}
-.schedule-grid{grid-template-columns:1fr}
-.section-title{font-size:2rem}
-.schedule-item{flex-direction:column;align-items:flex-start;gap:1rem}
-.schedule-item-time{align-self:flex-end}
-.back-to-top{bottom:20px;right:20px;width:45px;height:45px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detective & Vice Division (DVD) — элитное подразделение LSPD. Расследования, борьба с наркотиками и вербовка.">
+    <meta property="og:title" content="DVD | Detective & Vice Division — LSPD Elite">
+    <meta property="og:description" content="Элитное подразделение LSPD. В тени закона мы ищем правду. Правосудие — наш единственный ориентир.">
+    <meta property="og:type" content="website">
+    <title>DVD | Detective & Vice Division — LSPD Elite</title>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Detective & Vice Division",
+      "alternateName": "DVD",
+      "description": "Элитное подразделение LSPD. Расследования, борьба с наркотиками и вербовка.",
+      "url": "https://example.com",
+      "logo": "https://example.com/logo.png",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "Los Santos Police Department",
+        "alternateName": "LSPD"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        (function() {
+            try {
+                const theme = localStorage.getItem('dvd-theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
-<body class="loading">
-<canvas id="particlesCanvas"></canvas>
-<div class="preloader" id="preloader">
-<div class="preloader-logo"><i class="fas fa-eagle"></i>🦅DVD</div>
-<div class="preloader-spinner"></div>
-</div>
-<div class="menu-overlay" id="menuOverlay"></div>
-<nav>
-<div class="nav-container">
-<a href="#" class="logo"><i class="fas fa-eagle"></i>🦅DVD</a>
-<button type="button" class="hamburger" id="hamburger" aria-label="Открыть меню" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
-<ul class="nav-links" id="navLinks" role="menu">
-<li role="none"><a href="#about" role="menuitem">О отделе</a></li>
-<li role="none"><a href="#schedule" role="menuitem">Расписание</a></li>
-<li role="none"><a href="#docs" role="menuitem">Документация</a></li>
-<li role="none"><a href="#motto" role="menuitem">Девиз</a></li>
-</ul>
-</div>
-</nav>
-<section class="hero">
-<div class="hero-content">
-<div class="hero-badge"><i class="fas fa-eagle"></i>Внутренний портал DVD</div>
-<h1>Detective & Vice Division</h1>
-<p class="hero-subtitle"><i class="fas fa-eagle"></i>🦅Элита LSPD</p>
-<div class="typewriter-wrapper"><span id="typewriter-text"></span><span class="cursor" id="cursor"></span></div>
-<div class="cta-buttons">
-<a href="#schedule" class="btn btn-primary"><i class="fas fa-calendar-alt"></i>Расписание</a>
-<a href="#docs" class="btn btn-secondary"><i class="fas fa-book"></i>Документы</a>
-</div>
-</div>
-</section>
-<section id="about" class="about">
-<div class="container">
-<h2 class="section-title">Наша зона ответственности</h2>
-<p class="section-subtitle"><i class="fas fa-search"></i>Расследования высшего уровня</p>
-<div class="about-grid">
-<div class="about-card animate-on-scroll"><i class="fas fa-search"></i><h3>Расследования высшего уровня</h3><p>Серийные убийства, громкие похищения, коррупционные схемы. Дела, которые другим не по плечу.</p></div>
-<div class="about-card animate-on-scroll"><i class="fas fa-user-secret"></i><h3>Внутренняя чистка</h3><p>Поддержание железной дисциплины и неукоснительное соблюдение Устава. Свои не бросают своих.</p></div>
-<div class="about-card animate-on-scroll"><i class="fas fa-bolt"></i><h3>Спецоперации</h3><p>Там, где обычный патруль бессилен. Перехват поставок, зачистка дилерских сетей, освобождение заложников.</p></div>
-<div class="about-card animate-on-scroll"><i class="fas fa-shield-alt"></i><h3>Силовой контроль</h3><p>Обеспечение безопасности на ключевых объектах и мероприятиях LSPD. Code 3 — мгновенное реагирование.</p></div>
-</div>
-</div>
-</section>
-<section id="schedule" class="schedule">
-<div class="container">
-<h2 class="section-title">Расписание обязательных МП</h2>
-<p class="section-subtitle"><i class="fas fa-clock"></i>Актуальное время мероприятий</p>
-<div class="schedule-container">
-<div class="schedule-grid">
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-parachute-box"></i></div><div class="schedule-item-details"><h4>AIRDROP</h4><p>Группа 23:40</p></div></div><div class="schedule-item-time">00:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-parachute-box"></i></div><div class="schedule-item-details"><h4>AIRDROP</h4><p>Группа 03:40</p></div></div><div class="schedule-item-time">04:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-parachute-box"></i></div><div class="schedule-item-details"><h4>AIRDROP</h4><p>Группа 07:40</p></div></div><div class="schedule-item-time">08:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-gift"></i></div><div class="schedule-item-details"><h4>ТАЙНИКИ</h4><p>Группа 09:30</p></div></div><div class="schedule-item-time">10:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-handshake"></i></div><div class="schedule-item-details"><h4>ВЕРБОВКА ДИЛЕРОВ</h4><p>Группа 10:15</p></div></div><div class="schedule-item-time">10:45</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-parachute-box"></i></div><div class="schedule-item-details"><h4>AIRDROP</h4><p>Группа 11:40</p></div></div><div class="schedule-item-time">12:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-gift"></i></div><div class="schedule-item-details"><h4>ТАЙНИКИ</h4><p>Группа 13:30</p></div></div><div class="schedule-item-time">14:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-industry"></i></div><div class="schedule-item-details"><h4>ЗАХВАТ ЦЕХОВ</h4><p>Группа 14:15</p></div></div><div class="schedule-item-time">14:45</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-umbrella-beach"></i></div><div class="schedule-item-details"><h4>ОСТРОВ/Ф3</h4><p>Группа 15:30</p></div></div><div class="schedule-item-time">16:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-gift"></i></div><div class="schedule-item-details"><h4>ТАЙНИКИ</h4><p>Группа 17:30</p></div></div><div class="schedule-item-time">18:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-handshake"></i></div><div class="schedule-item-details"><h4>ВЕРБОВКА ДИЛЕРОВ</h4><p>Группа 18:15</p></div></div><div class="schedule-item-time">18:45</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-parachute-box"></i></div><div class="schedule-item-details"><h4>AIRDROP</h4><p>Группа 19:40</p></div></div><div class="schedule-item-time">20:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-gift"></i></div><div class="schedule-item-details"><h4>ТАЙНИКИ</h4><p>Группа 21:30</p></div></div><div class="schedule-item-time">22:00</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-industry"></i></div><div class="schedule-item-details"><h4>ЗАХВАТ ЦЕХОВ</h4><p>Группа 22:15</p></div></div><div class="schedule-item-time">22:45</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-truck"></i></div><div class="schedule-item-details"><h4>ПОСТАВКИ</h4><p>Ежедневно (безопасный час с 15:00 до 16:00)</p></div></div><div class="schedule-item-time">24/7</div></div>
-<div class="schedule-item"><div class="schedule-item-info"><div class="schedule-item-icon"><i class="fas fa-bullseye"></i></div><div class="schedule-item-details"><h4>КАПТЫ</h4><p>ПН, СР, ПТ, ВС</p></div></div><div class="schedule-item-time">14-21:00</div></div>
-</div>
-</div>
-</div>
-</section>
-<section id="docs" class="docs">
-<div class="container">
-<h2 class="section-title">Документация</h2>
-<p class="section-subtitle"><i class="fas fa-book"></i>Кодексы и внутренние материалы</p>
-<div class="docs-grid">
-<a href="https://forum.majestic-rp.ru/threads/ugolovnyi-kodeks-shtata-san-andreas.3306207/" target="_blank" rel="noopener noreferrer" class="doc-card animate-on-scroll" aria-label="УК — Уголовный Кодекс (откроется в новой вкладке)"><i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i><span class="sr-only">Внешняя ссылка</span><i class="fas fa-gavel"></i><h3>УК — Уголовный Кодекс</h3><p>Квалификация преступлений, статьи, сроки наказания и штрафы за нарушения закона штата.</p></a>
-<a href="https://forum.majestic-rp.ru/threads/protsessual-nyi-kodeks-shtata-san-andreas.3306203/" target="_blank" rel="noopener noreferrer" class="doc-card animate-on-scroll" aria-label="ПК — Процессуальный Кодекс (откроется в новой вкладке)"><i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i><span class="sr-only">Внешняя ссылка</span><i class="fas fa-balance-scale"></i><h3>ПК — Процессуальный Кодекс</h3><p>Порядок проведения расследований, задержаний, обысков и судебных разбирательств.</p></a>
-<a href="https://forum.majestic-rp.ru/threads/dorozhnyi-kodeks-shtata-san-andreas.3306191/" target="_blank" rel="noopener noreferrer" class="doc-card animate-on-scroll" aria-label="ДК — Дорожный Кодекс (откроется в новой вкладке)"><i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i><span class="sr-only">Внешняя ссылка</span><i class="fas fa-car"></i><h3>ДК — Дорожный Кодекс</h3><p>Правила дорожного движения, знаки, штрафы за нарушения ПДД на территории штата.</p></a>
-<a href="https://forum.majestic-rp.ru/threads/administrativnyi-kodeks-shtata-san-andreas.3306183/" target="_blank" rel="noopener noreferrer" class="doc-card animate-on-scroll" aria-label="АК — Административный Кодекс (откроется в новой вкладке)"><i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i><span class="sr-only">Внешняя ссылка</span><i class="fas fa-file-contract"></i><h3>АК — Административный Кодекс</h3><p>Административные правонарушения, порядок привлечения к ответственности и штрафы.</p></a>
-<a href="https://docs.google.com/spreadsheets/d/1NM8rN7HpGaj-SAZr019DFyFxDwiTP8ztBwx_DALg4D4/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="doc-card animate-on-scroll" aria-label="Памятка DVD (откроется в новой вкладке)"><i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i><span class="sr-only">Внешняя ссылка</span><i class="fas fa-clipboard-list"></i><h3>📋 Памятка DVD</h3><p>Внутренние процедуры, протоколы допросов, регламенты и стандарты работы отдела.</p></a>
-</div>
-</div>
-</section>
-<section id="motto" class="motto">
-<div class="container">
-<h2 class="section-title">Кодекс DVD</h2>
-<p class="section-subtitle"><i class="fas fa-shield-alt"></i>Принципы отдела</p>
-<div class="motto-box animate-on-scroll">
-<h3>Дисциплина. Честь. Братство.</h3>
-<p>Мы не ищем героев — мы куём легенды. Каждый сотрудник DVD — это звено в цепи, которая держит Лос-Сантос в равновесии. Железная дисциплина делает нас сильнее. Настоящий RP без имитации. Реальные результаты — реальное вознаграждение. Свои не бросают своих.</p>
-</div>
-</div>
-</section>
-<footer>
-<div class="footer-content">
-<div class="footer-logo"><i class="fas fa-eagle"></i>DVD</div>
-<p style="font-size:1.2rem;margin-bottom:1rem">Detective &amp; Vice Division</p>
-<p class="glow-text" style="font-size:1.2rem">DVD — братство, а не служба.</p>
-<p style="margin-top:2rem;opacity:0.7">Внутренний портал отдела. Только для действующих сотрудников.</p>
-<p style="margin-top:1rem;font-size:0.85rem;opacity:0.5">&copy; <span id="currentYear">2026</span> DVD - Detective &amp; Vice Division | LSPD Elite. Внутреннее использование.</p>
-</div>
-</footer>
-<button type="button" class="back-to-top" id="backToTop" aria-label="Наверх" aria-hidden="true" tabindex="-1"><i class="fas fa-chevron-up"></i></button>
-<script>
-(function() {
-document.getElementById('currentYear').textContent = new Date().getFullYear();
-function updateNavHeight() {
-const nav = document.querySelector('nav');
-if (nav) document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
-}
-updateNavHeight();
-window.addEventListener('resize', updateNavHeight);
-window.addEventListener('load', function() {
-setTimeout(function() {
-document.getElementById('preloader').classList.add('hidden');
-document.body.classList.remove('loading');
-updateBackToTopVisibility();
-}, 800);
-});
-const canvas = document.getElementById('particlesCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-const maxParticles = 80;
-function resizeCanvas() {
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-class Particle {
-constructor() { this.reset(); }
-reset() {
-this.x = Math.random() * canvas.width;
-this.y = Math.random() * canvas.height;
-this.size = Math.random() * 2 + 1;
-this.speedX = (Math.random() - 0.5) * 0.3;
-this.speedY = (Math.random() - 0.5) * 0.3;
-this.opacity = Math.random() * 0.4 + 0.2;
-}
-update() {
-this.x += this.speedX;
-this.y += this.speedY;
-if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-}
-draw() {
-ctx.fillStyle = `rgba(255,217,102,${this.opacity})`;
-ctx.beginPath();
-ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-ctx.fill();
-}
-}
-while (particles.length < maxParticles) particles.push(new Particle());
-function animateParticles() {
-if (document.hidden) { requestAnimationFrame(animateParticles); return; }
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-particles.forEach(p => { p.update(); p.draw(); });
-requestAnimationFrame(animateParticles);
-}
-animateParticles();
-const typewriterText = "Город не прощает слабых. Мы смотрим хаосу прямо в глаза и вытаскиваем правду из самой тёмной грязи Лос-Сантоса. DVD — это братство, где свои не бросают своих.";
-const textElement = document.getElementById('typewriter-text');
-const cursor = document.getElementById('cursor');
-let index = 0;
-function typeWriter() {
-if (index < typewriterText.length) {
-textElement.textContent += typewriterText.charAt(index);
-index++;
-setTimeout(typeWriter, 35);
-} else {
-cursor.style.display = 'none';
-}
-}
-setTimeout(typeWriter, 800);
-document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-anchor.addEventListener('click', function(e) {
-var href = this.getAttribute('href');
-if (href === '#') return;
-e.preventDefault();
-var target = document.querySelector(href);
-if (!target) { console.warn('Якорь "' + href + '" не найден.'); return; }
-target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-closeMobileMenu();
-});
-});
-document.querySelectorAll('a[href^="http"]').forEach(function(link) {
-link.addEventListener('click', function() {
-if (isMobileMenuOpen()) closeMobileMenu();
-});
-});
-function isMobileMenuOpen() { return document.getElementById('navLinks').classList.contains('active'); }
-function closeMobileMenu() {
-document.getElementById('navLinks').classList.remove('active');
-document.getElementById('hamburger').classList.remove('active');
-document.getElementById('menuOverlay').classList.remove('active');
-document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
-document.getElementById('hamburger').setAttribute('aria-label', 'Открыть меню');
-document.body.style.overflow = '';
-}
-var hamburger = document.getElementById('hamburger');
-var navLinks = document.getElementById('navLinks');
-var menuOverlay = document.getElementById('menuOverlay');
-hamburger.addEventListener('click', function() {
-var isOpen = navLinks.classList.toggle('active');
-hamburger.classList.toggle('active');
-menuOverlay.classList.toggle('active');
-hamburger.setAttribute('aria-expanded', isOpen.toString());
-hamburger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
-document.body.style.overflow = isOpen ? 'hidden' : '';
-if (isOpen) { var firstLink = navLinks.querySelector('a'); if (firstLink) firstLink.focus(); }
-});
-menuOverlay.addEventListener('click', closeMobileMenu);
-document.addEventListener('keydown', function(e) {
-if (e.key === 'Escape' && isMobileMenuOpen()) { closeMobileMenu(); hamburger.focus(); }
-});
-document.addEventListener('keydown', function(e) {
-if (!isMobileMenuOpen() || e.key !== 'Tab') return;
-var focusableElements = Array.from(navLinks.querySelectorAll('a, button')).filter(function(el) {
-var style = window.getComputedStyle(el);
-return style.visibility !== 'hidden' && style.opacity !== '0' && style.display !== 'none' && !el.disabled && el.offsetParent !== null;
-});
-if (focusableElements.length === 0) return;
-var firstElement = focusableElements[0];
-var lastElement = focusableElements[focusableElements.length - 1];
-if (e.shiftKey && document.activeElement === firstElement) { e.preventDefault(); lastElement.focus(); }
-else if (!e.shiftKey && document.activeElement === lastElement) { e.preventDefault(); firstElement.focus(); }
-});
-var orientationMQ = window.matchMedia('(orientation: portrait)');
-orientationMQ.addEventListener('change', function() {
-setTimeout(function() { if (isMobileMenuOpen()) closeMobileMenu(); }, 100);
-});
-var animationObserver = new IntersectionObserver(function(entries) {
-entries.forEach(function(entry) {
-var el = entry.target;
-if (entry.isIntersecting) { el.classList.add('animated'); }
-else { el.classList.remove('animated'); }
-});
-}, { threshold: 0.15 });
-document.querySelectorAll('.animate-on-scroll').forEach(function(el) { animationObserver.observe(el); });
-document.querySelectorAll('.section-title').forEach(function(el) { animationObserver.observe(el); });
-document.querySelectorAll('.schedule-item').forEach(function(el) { animationObserver.observe(el); });
-var scrollTicking = false;
-window.addEventListener('scroll', function() {
-if (!scrollTicking) {
-window.requestAnimationFrame(function() {
-updateActiveNav();
-updateBackToTopVisibility();
-scrollTicking = false;
-});
-scrollTicking = true;
-}
-}, { passive: true });
-function updateActiveNav() {
-var nav = document.querySelector('nav');
-if (!nav) return;
-var navHeight = nav.offsetHeight;
-var current = '';
-document.querySelectorAll('section[id]').forEach(function(section) {
-if (scrollY >= section.offsetTop - navHeight) { current = section.getAttribute('id'); }
-});
-document.querySelectorAll('.nav-links a').forEach(function(link) {
-link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-});
-}
-function updateBackToTopVisibility() {
-var backToTop = document.getElementById('backToTop');
-if (window.scrollY > 500) {
-backToTop.classList.add('visible');
-backToTop.removeAttribute('tabindex');
-backToTop.setAttribute('aria-hidden', 'false');
-} else {
-backToTop.classList.remove('visible');
-backToTop.setAttribute('tabindex', '-1');
-backToTop.setAttribute('aria-hidden', 'true');
-}
-}
-document.getElementById('backToTop').addEventListener('click', function() {
-window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-if (!document.getElementById('ripple-styles')) {
-var style = document.createElement('style');
-style.id = 'ripple-styles';
-style.textContent = '@keyframes rippleEffect{to{transform:scale(4);opacity:0}}.ripple-effect{position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:rippleEffect 0.6s ease-out forwards;pointer-events:none}';
-document.head.appendChild(style);
-}
-function createRipple(e, target) {
-if (target.dataset.rippling === 'true') return;
-target.dataset.rippling = 'true';
-var ripple = document.createElement('span');
-ripple.className = 'ripple-effect';
-var rect = target.getBoundingClientRect();
-var size = Math.max(rect.width, rect.height);
-var x, y;
-if (typeof e.clientX === 'number' && typeof e.clientY === 'number') {
-x = e.clientX - rect.left - size / 2;
-y = e.clientY - rect.top - size / 2;
-} else {
-x = rect.width / 2 - size / 2;
-y = rect.height / 2 - size / 2;
-}
-ripple.style.width = size + 'px';
-ripple.style.height = size + 'px';
-ripple.style.left = x + 'px';
-ripple.style.top = y + 'px';
-target.appendChild(ripple);
-var cleaned = false;
-var cleanup = function() {
-if (cleaned) return;
-cleaned = true;
-if (ripple.parentNode) ripple.remove();
-target.dataset.rippling = 'false';
-};
-ripple.addEventListener('animationend', cleanup, { once: true });
-setTimeout(cleanup, 700);
-}
-document.querySelectorAll('.doc-card').forEach(function(card) {
-card.addEventListener('click', function(e) { createRipple(e, card); });
-card.addEventListener('keydown', function(e) {
-if (e.repeat) return;
-if (e.key === ' ') { e.preventDefault(); card.click(); }
-});
-});
-var pauseStyle = document.createElement('style');
-pauseStyle.id = 'pause-animations';
-pauseStyle.textContent = 'body.animations-paused .hero h1,body.animations-paused .glow-text,body.animations-paused .logo,body.animations-paused .preloader-logo,body.animations-paused .preloader-spinner,body.animations-paused .schedule-item-time{animation-play-state:paused!important}body.animations-paused .hero::before,body.animations-paused .schedule-container::before{animation-play-state:paused!important}';
-document.head.appendChild(pauseStyle);
-document.addEventListener('visibilitychange', function() {
-var isHidden = document.hidden;
-if (isHidden) { document.body.classList.add('animations-paused'); }
-else { document.body.classList.remove('animations-paused'); }
-if (!isHidden) {
-document.querySelectorAll('[data-rippling="true"]').forEach(function(el) {
-el.dataset.rippling = 'false';
-var existing = el.querySelector('.ripple-effect');
-if (existing) existing.remove();
-});
-}
-});
-})();
-</script>
+<body>
+    <div class="bg-layer"></div>
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+    <!-- Фоновая музыка: autoplay muted для обхода блокировки браузера -->
+    <audio id="bgMusic" loop preload="auto" autoplay muted class="bg-audio" aria-label="Фоновая музыка">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <a href="#about" class="skip-link">Перейти к основному контенту</a>
+
+    <!-- Quick Bar -->
+    <div class="quick-bar">
+        <span>ШТАБ DVD: АКТИВЕН | <span id="currentTime" aria-live="polite">00:00:00 PST</span> HQ Los Santos</span>
+        <div class="quick-bar-actions">
+            <span class="music-icon" aria-hidden="true">🎧</span>
+            <button id="musicToggle" class="theme-btn music-btn" aria-label="Включить музыку">🔇</button>
+            <button id="themeToggle" class="theme-btn" aria-label="Переключить тему">🌙 Сменить тему</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="mainNav" role="navigation" aria-label="Основная навигация">
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="DVD - Главная">⚖️ DVD</a>
+            <div class="nav-links">
+                <a href="#about" aria-label="Перейти в раздел О нас">О нас</a>
+                <a href="#staff" aria-label="Перейти в раздел Руководство">Руководство</a>
+                <a href="#schedule" aria-label="Перейти в раздел Расписание">Расписание</a>
+                <a href="#video" aria-label="Перейти в раздел Медиа">Медиа</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-emblem" aria-hidden="true">⚖️</div>
+        <h1 class="reveal">Detective & Vice Division</h1>
+        <div class="hero-divider reveal"></div>
+        <p class="hero-subtitle reveal">Элитное подразделение LSPD<br>«В тени закона мы ищем правду. Правосудие — наш единственный ориентир.»</p>
+        <div class="hero-buttons reveal">
+            <a href="#schedule" class="btn btn-primary pulse">Оперативный календарь</a>
+            <a href="#about" class="btn btn-secondary">Направления работы</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2 class="section-title reveal">Направления Деятельности</h2>
+        <div class="about-grid">
+            <div class="about-card reveal"><h3>🕵️‍♂️ Расследования</h3><p>Раскрытие тяжких преступлений и работа с организованной преступностью.</p></div>
+            <div class="about-card reveal"><h3>💊 Борьба с наркотиками</h3><p>Выявление и ликвидация каналов поставки запрещенных веществ.</p></div>
+            <div class="about-card reveal"><h3>🤝 Вербовка</h3><p>Работа с информаторами и внедрение агентов в криминальные структуры.</p></div>
+        </div>
+        <div id="statsContainer" class="stats-grid reveal"></div>
+    </section>
+
+    <!-- Staff Section (Иерархия: Head → Curator → Assistant) -->
+    <section id="staff" class="section">
+        <h2 class="section-title reveal">Командный Состав</h2>
+        <div class="about-grid staff-grid">
+            <div class="about-card staff-card reveal">
+                <h3>⚖️ Head of Department</h3>
+                <p class="staff-name">Keva Reyme <span class="staff-id">159972</span></p>
+                <p class="staff-role">Начальник отдела — руководит всем подразделением.</p>
+                <blockquote class="staff-quote">Лидерство — это не власть, а ответственность за каждого.</blockquote>
+            </div>
+            <div class="about-card staff-card reveal">
+                <h3>🔍 Curator</h3>
+                <p class="staff-name">Chester Reyme <span class="staff-id">154810</span></p>
+                <p class="staff-role">Куратор — отвечает за оперативную работу.</p>
+                <blockquote class="staff-quote">В каждом деле есть нить, которая ведёт к истине.</blockquote>
+            </div>
+            <div class="about-card staff-card reveal">
+                <h3>🎖️ Assistant of Chief</h3>
+                <p class="staff-name">Cameron Step <span class="staff-id">40302</span></p>
+                <p class="staff-role">Помощник начальника — следит за отделом DVD.</p>
+                <blockquote class="staff-quote">Порядок — это не просто правило, это образ мышления.</blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="section">
+        <h2 class="section-title reveal">Оперативный Календарь</h2>
+        <div class="countdown-timer reveal">
+            <p>До следующей спецоперации:</p>
+            <div class="timer-display" aria-live="polite">
+                <div class="timer-block"><span class="timer-icon">⏳</span><span id="days">00</span><small>ДНЕЙ</small></div>
+                <div class="timer-block"><span class="timer-icon">🕒</span><span id="hours">00</span><small>ЧАСОВ</small></div>
+                <div class="timer-block"><span class="timer-icon">⌛</span><span id="minutes">00</span><small>МИНУТ</small></div>
+                <div class="timer-block"><span class="timer-icon">⏰</span><span id="seconds">00</span><small>СЕКУНД</small></div>
+            </div>
+        </div>
+        <div id="scheduleGrid" class="schedule-grid reveal"></div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="section">
+        <h2 class="section-title reveal">Медиа Архив</h2>
+        <div class="video-link-wrapper reveal">
+            <a href="https://youtu.be/WcMNrxv7LzM" target="_blank" rel="noopener noreferrer" class="btn btn-primary video-case-link" aria-label="Смотреть закрытое дело №1 на YouTube">
+                📁 Закрытое дело №1
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="currentYear"></span> Detective & Vice Division | LSPD Elite.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
