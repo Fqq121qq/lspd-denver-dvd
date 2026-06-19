@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -35,17 +35,6 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
-    <script>
-        (function () {
-            try {
-                const theme = localStorage.getItem('dvd-theme') || 'dark';
-                document.documentElement.setAttribute('data-theme', theme);
-            } catch (e) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
 </head>
 
 <body>
@@ -107,7 +96,7 @@
         <div id="statsContainer" class="stats-grid reveal"></div>
     </section>
 
-    <!-- Staff Section (Иерархия: Head → Curator → Assistant) -->
+    <!-- Staff Section -->
     <section id="staff" class="section">
         <h2 class="section-title reveal">Командный Состав</h2>
         <div class="about-grid staff-grid">
