@@ -73,8 +73,6 @@ const DVD = {
         this.renderSchedule("ALL");
         this.initClock();
         this.initCountdown();
-        this.initTheme();
-        this.initMusic();
         this.initScrollReveal();
         this.initStatsAnimation();
         this.initNavScroll();
@@ -159,83 +157,7 @@ const DVD = {
         updateCountdown();
     },
 
-    initTheme() {
-        const btn = document.getElementById('themeToggle');
-        const savedTheme = safeStorage.get('dvd-theme') || 'dark';
-        
-        const updateBtnText = (theme) => {
-            btn.textContent = theme === 'light' ? '☀️ Сменить тему' : '🌙 Сменить тему';
-        };
-        updateBtnText(savedTheme);
 
-        btn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            safeStorage.set('dvd-theme', newTheme);
-            updateBtnText(newTheme);
-        });
-    },
-
-    initMusic() {
-        const audio = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicToggle');
-        const VOLUME = 0.3; // Тихая громкость (30%)
-        
-        let isPlaying = false;
-
-        const syncUI = (playing) => {
-            isPlaying = playing;
-            btn.textContent = playing ? '🔈' : '🔇';
-            btn.setAttribute('aria-label', playing ? 'Выключить музыку' : 'Включить музыку');
-        };
-
-        // Устанавливаем тихую громкость
-        audio.volume = VOLUME;
-
-        // Синхронизация с нативными событиями
-        audio.addEventListener('play', () => syncUI(true));
-        audio.addEventListener('pause', () => syncUI(false));
-
-        // Автовоспроизведение при загрузке (с muted для обхода блокировки)
-        audio.muted = true;
-        audio.play().catch(() => {
-            // Если не удалось — ничего страшного, попробуем при клике
-        });
-
-        // При первом клике снимаем mute и играем с тихой громкостью
-        const enableSound = () => {
-            if (!isPlaying) {
-                audio.muted = false;
-                audio.volume = VOLUME;
-                audio.play()
-                    .then(() => syncUI(true))
-                    .catch(() => syncUI(false));
-            } else {
-                // Если уже играет (muted), снимаем mute
-                audio.muted = false;
-                audio.volume = VOLUME;
-            }
-            // Удаляем обработчики после первого клика
-            document.removeEventListener('click', enableSound);
-            document.removeEventListener('touchstart', enableSound);
-        };
-
-        document.addEventListener('click', enableSound, { once: true });
-        document.addEventListener('touchstart', enableSound, { once: true });
-
-        // Кнопка управления (вкл/выкл)
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isPlaying) {
-                audio.pause();
-            } else {
-                audio.muted = false;
-                audio.volume = VOLUME;
-                audio.play().catch(err => console.warn('Audio play failed:', err));
-            }
-        });
-    },
 
     renderSchedule(filter) {
         const grid = document.getElementById('scheduleGrid');
